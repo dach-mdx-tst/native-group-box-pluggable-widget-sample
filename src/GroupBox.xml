@@ -23,7 +23,7 @@
                 </property>
             </propertyGroup>
             <propertyGroup caption="Header">
-                <property key="headerCaption" type="string" required="false">
+                <property key="headerCaption" type="textTemplate" required="false">
                     <caption>Caption</caption>
                     <description/>
                 </property>
@@ -34,6 +34,15 @@
                 <property key="collapseIcon" type="icon" required="false">
                     <caption>Collapse icon</caption>
                     <description>Icon used to indicate that the group box can be collapsed</description>
+                </property>
+                <property key="footer" type="enumeration" defaultValue="no">
+                    <caption>Footer</caption>
+                    <description></description>
+                    <enumerationValues>
+                        <enumerationValue key="no">No</enumerationValue>
+                        <enumerationValue key="yesWithoutTitle">Yes (without title)</enumerationValue>
+                        <enumerationValue key="yesWithTitle">Yes (with title)</enumerationValue>
+                    </enumerationValues>
                 </property>
             </propertyGroup>
             <propertyGroup caption="Common">

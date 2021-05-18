@@ -12,10 +12,13 @@ interface CommonProps<Style> {
 
 export type CollapsibleEnum = "no" | "yesStartExpanded" | "yesStartCollapsed";
 
+export type FooterEnum = "no" | "yesWithoutTitle" | "yesWithTitle";
+
 export interface GroupBoxProps<Style> extends CommonProps<Style> {
     content?: any;
     collapsible: CollapsibleEnum;
-    headerCaption?: string;
+    headerCaption?: DynamicValue<string>;
     expandIcon?: DynamicValue<NativeIcon>;
     collapseIcon?: DynamicValue<NativeIcon>;
+    footer: FooterEnum;
 }

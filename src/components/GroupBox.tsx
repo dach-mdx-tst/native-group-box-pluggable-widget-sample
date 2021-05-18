@@ -1,5 +1,5 @@
-import { Children, Component, ReactNode, createElement, ComponentClass } from "react";
-import { Text, View, TouchableOpacity, Platform, TouchableNativeFeedback } from "react-native";
+import { Children, Component, ComponentClass, ReactNode, createElement } from "react";
+import { Platform, Text, TouchableNativeFeedback, TouchableOpacity, View } from "react-native";
 
 import { CustomStyle } from "../GroupBox";
 import { flattenStyles } from "../utils/common";
@@ -9,8 +9,10 @@ export interface GroupBoxProps {
     collapsible: boolean;
     collapseIcon?: ReactNode;
     expandIcon?: ReactNode;
-    headerCaption?: string;
+    caption?: string;
     style: CustomStyle[];
+    footer: boolean;
+    footerTitle: boolean;
 }
 
 export interface GroupBoxState {
@@ -53,6 +55,7 @@ export class GroupBox extends Component<GroupBoxProps, GroupBoxState> {
     render(): ReactNode {
         const renderedHeader = this.renderHeader();
         const renderedContent = this.renderContent();
+        const renderFooter = this.renderFooter();
 
         if (!renderedHeader && !renderedContent) {
             return null;
@@ -62,24 +65,33 @@ export class GroupBox extends Component<GroupBoxProps, GroupBoxState> {
             <View style={this.styles.container}>
                 {renderedHeader}
                 {renderedContent}
+                {renderFooter}
             </View>
         );
     }
 
-    private renderHeader = () => {
-        const { collapsible, headerCaption } = this.props;
+    private renderFooter = () => {
+        if (this.state.collapsed || Children.count(this.props.children) === 0 || !this.props.footer) {
+            return null;
+        }
+
+        return this.renderHeader(!this.props.footerTitle)
+    }
+
+    private renderHeader = (hideTitle?: boolean) => {
+        const { collapsible, caption } = this.props;
 
         const view = (
             <View style={this.styles.header}>
-                <Text style={this.styles.headerContent}>{headerCaption}</Text>
+                <Text style={this.styles.headerContent}>{hideTitle ? " " : caption}</Text>
                 {this.renderIcon()}
-            </View>
+            </View>         
         );
 
         if (collapsible) {
             const Touchable: ComponentClass<any> = Platform.OS === "ios" ? TouchableOpacity : TouchableNativeFeedback;
             return <Touchable onPress={this.toggleCollapsed}>{view}</Touchable>;
-        } else if (headerCaption) {
+        } else if (caption) {
             return view;
         }
 
